@@ -257,8 +257,6 @@ function encodeToRot13(str) {
   return response;
 }
 
-console.log(encodeToRot13('hello'));
-
 /**
  * Returns true if the value is string; otherwise false.
  * @param {string} value
