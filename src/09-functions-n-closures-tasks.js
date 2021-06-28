@@ -133,7 +133,7 @@ function retry(func, attempts) {
       try {
         return func();
       } catch (e) {
-        console.log(e);
+        e.toString();
       }
     }
     return attempts;
@@ -182,9 +182,7 @@ function logger(/* func, logFunc */) {
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
 function partialUsingArguments(fn, ...args1) {
-  return function (...args) {
-    return fn(...args1, ...args);
-  };
+  return (...args) => fn(...args1, ...args);
 }
 
 
