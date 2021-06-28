@@ -23,8 +23,8 @@
  *   getComposition(Math.sin, Math.asin)(x) => Math.sin(Math.asin(x))
  *
  */
-function getComposition(/* f, g */) {
-  throw new Error('Not implemented');
+function getComposition(f, g) {
+  return (val) => f(g(val));
 }
 
 
@@ -44,8 +44,8 @@ function getComposition(/* f, g */) {
  *   power05(16) => 4
  *
  */
-function getPowerFunction(/* exponent */) {
-  throw new Error('Not implemented');
+function getPowerFunction(exponent) {
+  return (x) => x ** exponent;
 }
 
 
@@ -66,6 +66,21 @@ function getPolynom() {
   throw new Error('Not implemented');
 }
 
+//
+// function getPolynom(...vals) {
+//   if (vals == null || vals.length === 0) {
+//     return null;
+//   }
+//
+//   return (x) => {
+//     const functions = [];
+//     for (let i = 0; i < vals.length; i += 1) {
+//       const n = vals.length - i - 1 === 0 ? 1 : (vals.length - i - 1);
+//       functions.push(vals[i] * (x ** n));
+//     }
+//     functions.reduce((f2, f) => f2 + f, 0);
+//   };
+// }
 
 /**
  * Memoizes passed function and returns function
@@ -81,8 +96,19 @@ function getPolynom() {
  *   ...
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
-function memoize(/* func */) {
-  throw new Error('Not implemented');
+function memoize(func) {
+  const results = [];
+  if (func == null) {
+    return this.res;
+  }
+  this.res = func();
+  return (val) => {
+    const value = results.filter((v) => v === val)[0];
+    if (value != null) {
+      return value;
+    }
+    return func;
+  };
 }
 
 
@@ -101,8 +127,17 @@ function memoize(/* func */) {
  * }, 2);
  * retryer() => 2
  */
-function retry(/* func, attempts */) {
-  throw new Error('Not implemented');
+function retry(func, attempts) {
+  return () => {
+    for (let i = 0; i < attempts; i += 1) {
+      try {
+        return func();
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    return attempts;
+  };
 }
 
 
@@ -133,7 +168,6 @@ function logger(/* func, logFunc */) {
   throw new Error('Not implemented');
 }
 
-
 /**
  * Return the function with partial applied arguments
  *
@@ -147,8 +181,10 @@ function logger(/* func, logFunc */) {
  *   partialUsingArguments(fn, 'a','b','c')('d') => 'abcd'
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
-function partialUsingArguments(/* fn, ...args1 */) {
-  throw new Error('Not implemented');
+function partialUsingArguments(fn, ...args1) {
+  return function (...args) {
+    return fn(...args1, ...args);
+  };
 }
 
 
